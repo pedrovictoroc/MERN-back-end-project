@@ -30,9 +30,11 @@ app.use(bodyParser.json());
 
 const indexRoute = require('./Routes/index');//instancia das rotas
 const usersRoute = require('./Routes/users');
+const itensRoute = require('./Routes/itens');
 
 app.use('/',indexRoute); //setar a rota
 app.use('/users',usersRoute);
+app.use('/itens',itensRoute);
 
 app.listen(3000);//listening a porta 3000
 
