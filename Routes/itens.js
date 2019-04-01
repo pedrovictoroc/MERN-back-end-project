@@ -12,10 +12,27 @@ router.get('/showitens', async (req,res) => {
     }
 });
 
-router.post('/removeitem', async (req,res) =>{
-    const {nome, quantidade, preço, caracteristicas} = req.body;
+router.get('/removeitem', async (req,res) =>{
+    let search = req.query;     //provisoriamente usa a query para buscar o nome do produto a ser deletado
+                                //usar /?nome='nome do produto'
+    let nomeProduto = search.nome;
 
-    
+    if(!nomeProduto){  //Se não existir informação suficiente
+        return res.send({error: 'Sem nome para deletar item'});
+    }
+
+    try{
+        if(await !Itens.findOne({nomeProduto})){   //Se não existir o produto
+            return res.send({error: 'Produto inexistente'});
+        }
+
+        const deletar = await Itens.deleteOne({nome: nomeProduto}); //Se funcionar deletarei
+        return res.send(deletar);
+
+    } catch (err){      //Demais erros
+        return res.send({error: err});
+    }
+
 });
 
 router.post('/createitens', async (req,res) =>{
