@@ -56,4 +56,41 @@ router.post('/createitens', async (req,res) =>{
     }
 });
 
+router.get('/updateitens',async (req,res,opção)=>{
+    let search = req.query;
+    let idProduto = search.id;//Usar id para a query
+
+    if(!idProduto){     //Se o id não for informado retorno erro
+        return res.send({error: 'ID não informado'});
+    }
+
+    try{
+        if(await !Itens.findOne({"_id": idProduto})){   //Não localizar o ID
+            return res.send({error: "Produto inexistente"});
+        }
+        atualizar = await Itens.findOne({"_id": idProduto});
+        //return res.send({atualizar});
+        
+        switch(opção){
+            case 1:
+                //Update nome
+                break;
+            case 2:
+                //Update quantidade
+                break;
+            case 3:
+                //Update preço
+                break;
+            case 4:
+                //Update caracteristicas
+                break;
+        }
+        
+    
+    } catch(err){   //Erros gerais relacionado ao ID
+        return res.send({error: 'ID inexistente'});
+    }
+
+});
+
 module.exports = router;
